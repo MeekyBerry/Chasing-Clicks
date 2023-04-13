@@ -8,13 +8,9 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoibWlra3lsYW5reSIsImEiOiJjbGV2dXI3eTQwYTg2M3JvNGVxbWptNmJ3In0.xuQVWBqJAcjqBOTa_CbJgA";
 
 const ClickCounter = () => {
-  // const [count, setCount] = useState(() => {
-  //   const value = localStorage.getItem("count");
-  //   return value !== null ? JSON.parse(value) : 0;
-  // });
   const [count, setCount] = useState(() => {
-    const value = Cookies.get("count");
-    return value !== undefined ? parseInt(value) : 0;
+    const value = localStorage.getItem("count");
+    return value !== null ? JSON.parse(value) : 0;
   });
   const [state, setState] = useState(() => {
     const value = localStorage.getItem("state");
@@ -24,15 +20,19 @@ const ClickCounter = () => {
     const value = localStorage.getItem("country");
     return value !== null ? JSON.parse(value) : "";
   });
-  // const [clicksByLocation, setClicksByLocation] = useState(() => {
-  //   const value = localStorage.getItem("clicksByLocation");
-  //   return value !== null ? JSON.parse(value) : {};
-  // });
   const [clicksByLocation, setClicksByLocation] = useState(() => {
-    const value = Cookies.get("clicksByLocation");
-    return value !== undefined ? JSON.parse(value) : {};
+    const value = localStorage.getItem("clicksByLocation");
+    return value !== null ? JSON.parse(value) : {};
   });
   const [map, setMap] = useState(null);
+
+  // useEffect(() => {
+  //   const savedCount = JSON.parse(localStorage.getItem("count"));
+
+  //   if (savedCount) {
+  //     setCount(savedCount);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const savedCount = JSON.parse(localStorage.getItem("count"));
@@ -72,11 +72,8 @@ const ClickCounter = () => {
     return () => map.remove();
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("count", JSON.stringify(count));
-  // }, [count]);
   useEffect(() => {
-    Cookies.set("count", count);
+    localStorage.setItem("count", JSON.stringify(count));
   }, [count]);
 
   useEffect(() => {
@@ -87,14 +84,8 @@ const ClickCounter = () => {
     localStorage.setItem("country", JSON.stringify(country));
   }, [country]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
-  //   setCount(
-  //     Object.values(clicksByLocation).reduce((acc, val) => acc + val, 0)
-  //   );
-  // }, [clicksByLocation]);
   useEffect(() => {
-    Cookies.set("clicksByLocation", JSON.stringify(clicksByLocation));
+    localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
     setCount(
       Object.values(clicksByLocation).reduce((acc, val) => acc + val, 0)
     );
@@ -128,7 +119,7 @@ const ClickCounter = () => {
           map.flyTo({
             center: [longitude, latitude],
             essential: true,
-            zoom: 9,
+            zoom: 9
           });
         }
       },
@@ -136,7 +127,7 @@ const ClickCounter = () => {
         console.error(error);
       }
     );
-    setCount((prevCount) => prevCount + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (

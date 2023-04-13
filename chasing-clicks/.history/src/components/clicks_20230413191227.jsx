@@ -128,7 +128,7 @@ const ClickCounter = () => {
           map.flyTo({
             center: [longitude, latitude],
             essential: true,
-            zoom: 9,
+            zoom: 9
           });
         }
       },
@@ -136,7 +136,7 @@ const ClickCounter = () => {
         console.error(error);
       }
     );
-    setCount((prevCount) => prevCount + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
