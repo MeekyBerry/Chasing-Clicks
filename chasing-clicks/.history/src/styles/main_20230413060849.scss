@@ -1,0 +1,54 @@
+:root {
+  --color-primary: #000;
+  --color-secondary: #fff;
+
+  --color-primary-light: #333;
+  --color-secondary-light: #ccc;
+
+  --color-primary-lighter: #666;
+  --color-secondary-lighter: #999;
+
+  --color-primary-darker: #2644;
+  --color-secondary-darker: #454;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.app {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--color-secondary);
+  background-color: var(--color-primary-lighter);
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem;
+}
+
+.click {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  &--title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+    // width: 70%;
+  }
+}
