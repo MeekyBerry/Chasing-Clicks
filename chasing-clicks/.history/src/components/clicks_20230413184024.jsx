@@ -52,7 +52,9 @@ const ClickCounter = () => {
       setCountry(savedCountry);
     }
 
-    const savedClicksByLocation = Number(localStorage.getItem("clickByLocation"));
+    const savedClicksByLocation = JSON.parse(
+      localStorage.getItem("clicksByLocation")
+    );
 
     if (savedClicksByLocation) {
       setClicksByLocation(savedClicksByLocation);
@@ -124,7 +126,7 @@ const ClickCounter = () => {
         console.error(error);
       }
     );
-    setCount(prevCount => prevCount + 1);
+    setCount(prevCount =);
   };
 
   return (

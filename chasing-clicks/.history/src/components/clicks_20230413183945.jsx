@@ -52,7 +52,9 @@ const ClickCounter = () => {
       setCountry(savedCountry);
     }
 
-    const savedClicksByLocation = Number(localStorage.getItem("clickByLocation"));
+    const savedClicksByLocation = JSON.parse(
+      localStorage.getItem("clicksByLocation")
+    );
 
     if (savedClicksByLocation) {
       setClicksByLocation(savedClicksByLocation);
@@ -89,7 +91,8 @@ const ClickCounter = () => {
   }, [clicksByLocation]);
 
   const handleButtonClick = async () => {
-    const increasedCount = count + 1;
+    // const increasedCount = count + 1;
+    const
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
@@ -124,7 +127,7 @@ const ClickCounter = () => {
         console.error(error);
       }
     );
-    setCount(prevCount => prevCount + 1);
+    setCount(increasedCount);
   };
 
   return (
