@@ -1,12 +1,10 @@
 :root {
-  --color-primary: #000;
-  --color-secondary: #fff;
-  --color-primary-light: #333;
-  --color-secondary-light: #ccc;
-  --color-primary-lighter: #666;
-  --color-secondary-lighter: #999;
-  --color-primary-darker: #2644;
-  --color-secondary-darker: #454;
+  --color-primary: #0C0404;
+  --color-secondary: #F5FEFD;
+  --color-primary-light: #696969;
+  --color-secondary-light: #F8F8FF;
+  --color-primary-lighter: #666362;
+  --color-secondary-lighter: #555555;
 }
 
 *,
@@ -22,10 +20,10 @@ html {
 }
 
 .app {
-  font-family: "Roboto", sans-serif;
+  font-family: "Fira Sans", sans-serif;
   font-size: 1.6rem;
+  font-weight: 400;
   line-height: 1.5;
-  color: var(--color-secondary);
   background-color: var(--color-primary-lighter);
   width: 100%;
   min-height: 100vh;
@@ -42,25 +40,40 @@ html {
 }
 .click--title {
   font-size: 2.5rem;
+  font-weight: 600;
+  font-family: "Fira Sans";
+  color: var(--color-secondary);
   margin-bottom: 1rem;
   text-transform: capitalize;
-  border-bottom: 2px solid #333;
 }
 .click--text {
   margin-bottom: 0.5rem;
   font-style: oblique;
-  text-transform: lowercase;
+  font-size: 1.5rem;
+  font-family: "Oxygen";
+  color: var(--color-secondary-light);
 }
 .click--text__count {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  font-weight: 900;
+  font-family: "Fira Sans";
   color: var(--color-primary);
   font-style: normal !important;
+  margin: 0 0.5rem;
 }
 .click--text__location {
   font-size: 1.8rem;
-  color: var(--color-primary-light);
+  font-weight: 900;
+  font-family: "Fira Sans";
   font-style: normal !important;
-  text-transform: capitalize !important;
+  color: var(--color-primary);
+  text-transform: capitalize;
+}
+.click--text__location__mark {
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-family: "Fira Sans";
+  font-style: normal !important;
 }
 .click--btn {
   padding: 1rem;
@@ -69,10 +82,12 @@ html {
   color: var(--color-secondary);
   font-size: 1.3rem;
   font-weight: 600;
+  font-family: "Oxygen" monospace;
   text-transform: uppercase;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  animation: heartbeat 1.5s ease-in-out infinite;
 }
 .click--btn:hover, .click--btn:active {
   background-color: var(--color-primary-light);
@@ -90,7 +105,6 @@ html {
 .click--locationCount {
   font-size: 1.5rem;
   background-color: var(--color-primary-light);
-  color: var(--color-secondary-light);
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
@@ -103,8 +117,11 @@ html {
 }
 .click--locationCount__head {
   font-size: 2rem;
+  font-weight: 600;
+  font-family: "Fira Sans";
+  color: var(--color-secondary);
   text-transform: capitalize;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--color-secondary-light);
 }
 .click--locationCount__list {
   width: 100%;
@@ -122,10 +139,12 @@ html {
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--color-secondary-light);
 }
 .click--locationCount__list--container__title {
   font-size: 1.5rem;
+  font-family: "Fira Sans";
+  color: var(--color-secondary);
   text-transform: capitalize;
 }
 .click--locationCount__list__item {
@@ -134,15 +153,39 @@ html {
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--color-secondary-light);
   width: 100%;
+  text-align: center;
+  font-family: "Fira Sans";
 }
 .click--locationCount__list__item__location {
   font-size: 1.3rem;
+  color: var(--color-secondary-light);
   text-transform: capitalize;
 }
 .click--locationCount__list__item__count {
   font-size: 1.8rem;
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-weight: 600;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  80% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }/*# sourceMappingURL=main.css.map */
