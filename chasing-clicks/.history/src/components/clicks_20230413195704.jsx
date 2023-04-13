@@ -169,21 +169,21 @@ const ClickCounter = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
-      {lastClick.count > 0 && (
+      {
         <p className="click--text">
           I have been clicked{" "}
           <strong className="click--text__count">{lastClick.count}</strong>{" "}
           times in total.
         </p>
-      )}
-      {state && country && (
+      }
+      {
         <p className="click--text">
           You clicked me from{" "}
           <strong className="click--text__location">{state}</strong>,
           <strong className="click--text__location">{country}</strong>
           <span className="click--text__location__mark">!</span>
         </p>
-      )}
+      }
       {/* Conditionally render count
       {count > 0 && (
         <p className="click--text">
@@ -229,7 +229,7 @@ const ClickCounter = () => {
                   {lastClick.location}
                 </p>
                 <p className="click--locationCount__list__item__count">
-                  {clicksByLocation[lastClick.location]}
+                  {clicksByLocation[location]}
                 </p>
               </li>
             ))}

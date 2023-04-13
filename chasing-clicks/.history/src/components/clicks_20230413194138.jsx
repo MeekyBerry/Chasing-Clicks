@@ -28,11 +28,7 @@ const ClickCounter = () => {
     const value = Cookies.get("clicks");
     return value !== undefined ? JSON.parse(value) : [];
   });
-  // const [lastClick, setLastClick] = useState({ location: "", count: 0 });
-  const [lastClick, setLastClick] = useState(() => {
-    const value = Cookies.get("lastClick");
-    return value !== undefined ? JSON.parse(value) : { location: "", count: 0 };
-  });
+  const [lastClick, setLastClick] = useState({ location: "", count: 0 });
   // const [clicksByLocation, setClicksByLocation] = useState(() => {
   //   const value = localStorage.getItem("clicksByLocation");
   //   return value !== null ? JSON.parse(value) : {};
@@ -106,9 +102,6 @@ const ClickCounter = () => {
     Cookies.set("clicks", JSON.stringify(clicks));
   }, [clicks]);
 
-  useEffect(() => {
-    Cookies.set("lastClick", JSON.stringify(lastClick));
-  }, [lastClick]);
   // useEffect(() => {
   //   localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
   //   setCount(
@@ -137,10 +130,7 @@ const ClickCounter = () => {
         const [country, state] = place_name.split(",").reverse();
         setState(state);
         setCountry(country);
-        setClicks((prevClicks) => [
-          ...prevClicks,
-          { location: place_name, count: increasedCount },
-        ]);
+        setClicks((prevClicks) => [...prevClicks, { location: place_name, count: increasedCount }]);
         setLastClick({ location: place_name, count: increasedCount });
         setClicksByLocation({
           ...clicksByLocation,
@@ -169,21 +159,19 @@ const ClickCounter = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
-      {lastClick.count > 0 && (
+      {
         <p className="click--text">
           I have been clicked{" "}
-          <strong className="click--text__count">{lastClick.count}</strong>{" "}
-          times in total.
+          <strong className="click--text__count">{lastClick.count}</strong> times in total.
         </p>
-      )}
-      {state && country && (
+      }
+      {
         <p className="click--text">
           You clicked me from{" "}
-          <strong className="click--text__location">{state}</strong>,
-          <strong className="click--text__location">{country}</strong>
+          <strong className="click--text__location">{lastClick.location}</strong>
           <span className="click--text__location__mark">!</span>
         </p>
-      )}
+      }
       {/* Conditionally render count
       {count > 0 && (
         <p className="click--text">
@@ -211,7 +199,7 @@ const ClickCounter = () => {
         ></div>
       </div>
       {/* Conditionally render clicks by location */}
-      {Object.keys(clicksByLocation).length > 0 && (
+      {/* {Object.keys(clicksByLocation).length > 0 && (
         <div className="click--locationCount">
           <h2 className="click--locationCount__head">Clicked Locations</h2>
           <ul className="click--locationCount__list">
@@ -226,16 +214,52 @@ const ClickCounter = () => {
             {Object.keys(clicksByLocation).map((location) => (
               <li key={location} className="click--locationCount__list__item">
                 <p className="click--locationCount__list__item__location">
-                  {lastClick.location}
+                  {location}
                 </p>
                 <p className="click--locationCount__list__item__count">
-                  {clicksByLocation[lastClick.location]}
+                  {clicksByLocation[location]}
+                </p>
+              </li>
+            ))} */}
+          {/* </ul> */}
+        {/* </div> */}
+      {/* // )} */}
+
+            {/* {clicks.map((click, index) => (
+              <li key={index} className="click--locationCount__list__item">
+                <p className="click--locationCount__list__item__location">
+                  {click.location}
+                </p>
+                <p className="click--locationCount__list__item__count">
+                  {click.count}
+                </p></li>
+            ))} */}
+
+            {
+        <div className="click--locationCount">
+          <h2 className="click--locationCount__head">Clicked Locations</h2>
+          <ul className="click--locationCount__list">
+            <li className="click--locationCount__list--container">
+              <h2 className="click--locationCount__list--container__title">
+                Locations
+              </h2>
+              <h2 className="click--locationCount__list--container__title">
+                Clicks #
+              </h2>
+            </li>
+            {clicks.map((click, index) => (
+              <li key={index} className="click--locationCount__list__item">
+                <p className="click--locationCount__list__item__location">
+                  {click.location}
+                </p>
+                <p className="click--locationCount__list__item__count">
+                  {click.count}
                 </p>
               </li>
             ))}
           </ul>
         </div>
-      )}
+            }
     </div>
   );
 };

@@ -28,11 +28,7 @@ const ClickCounter = () => {
     const value = Cookies.get("clicks");
     return value !== undefined ? JSON.parse(value) : [];
   });
-  // const [lastClick, setLastClick] = useState({ location: "", count: 0 });
-  const [lastClick, setLastClick] = useState(() => {
-    const value = Cookies.get("lastClick");
-    return value !== undefined ? JSON.parse(value) : { location: "", count: 0 };
-  });
+  const [lastClick, setLastClick] = useState({ location: "", count: 0 });
   // const [clicksByLocation, setClicksByLocation] = useState(() => {
   //   const value = localStorage.getItem("clicksByLocation");
   //   return value !== null ? JSON.parse(value) : {};
@@ -106,9 +102,6 @@ const ClickCounter = () => {
     Cookies.set("clicks", JSON.stringify(clicks));
   }, [clicks]);
 
-  useEffect(() => {
-    Cookies.set("lastClick", JSON.stringify(lastClick));
-  }, [lastClick]);
   // useEffect(() => {
   //   localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
   //   setCount(
@@ -137,10 +130,7 @@ const ClickCounter = () => {
         const [country, state] = place_name.split(",").reverse();
         setState(state);
         setCountry(country);
-        setClicks((prevClicks) => [
-          ...prevClicks,
-          { location: place_name, count: increasedCount },
-        ]);
+        setClicks([...clicks, { location: place_name, count: increasedCount }]);
         setLastClick({ location: place_name, count: increasedCount });
         setClicksByLocation({
           ...clicksByLocation,
@@ -169,38 +159,23 @@ const ClickCounter = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
-      {lastClick.count > 0 && (
-        <p className="click--text">
-          I have been clicked{" "}
-          <strong className="click--text__count">{lastClick.count}</strong>{" "}
-          times in total.
-        </p>
-      )}
-      {state && country && (
-        <p className="click--text">
-          You clicked me from{" "}
-          <strong className="click--text__location">{state}</strong>,
-          <strong className="click--text__location">{country}</strong>
-          <span className="click--text__location__mark">!</span>
-        </p>
-      )}
-      {/* Conditionally render count
+      {/* Conditionally render count */}
       {count > 0 && (
         <p className="click--text">
           I have been clicked{" "}
           <strong className="click--text__count">{count}</strong> times in
           total.
-        </p> */}
-      {/* )} */}
+        </p>
+      )}
       {/* Conditionally render state and country */}
-      {/* {state && country && (
+      {state && country && (
         <p className="click--text">
           You clicked me from{" "}
           <strong className="click--text__location">{state},</strong>{" "}
           <strong className="click--text__location">{country}</strong>
           <span className="click--text__location__mark">!</span>
-        </p> */}
-      {/* )} */}
+        </p>
+      )}
       <button type="button" onClick={handleButtonClick} className="click--btn">
         Click Me
       </button>
@@ -226,10 +201,10 @@ const ClickCounter = () => {
             {Object.keys(clicksByLocation).map((location) => (
               <li key={location} className="click--locationCount__list__item">
                 <p className="click--locationCount__list__item__location">
-                  {lastClick.location}
+                  {location}
                 </p>
                 <p className="click--locationCount__list__item__count">
-                  {clicksByLocation[lastClick.location]}
+                  {clicksByLocation[location]}
                 </p>
               </li>
             ))}
