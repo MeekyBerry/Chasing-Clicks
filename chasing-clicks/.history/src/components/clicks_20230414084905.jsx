@@ -211,13 +211,13 @@ clicksRef.get().then(querySnapshot => {
         Click Me
       </button>
       <div>
-      <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
+      {/* <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
       {firebaseError && <p>{firebaseError}</p>}
     </div>
     <div>
       <button onClick={handleLocate}className="click--btn">LocateDel</button>
       {firebaseError && <p>{firebaseError}</p>}
-    </div>
+    </div> */}
       <div className="click--map">
         <div
           id="map"

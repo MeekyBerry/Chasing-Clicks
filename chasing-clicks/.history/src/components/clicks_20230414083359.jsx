@@ -177,19 +177,6 @@ const ClickCounter = () => {
     });
   };
 
-  const handleLocate = () => {
-    const clicksRef = db.collection('clicks');
-clicksRef.get().then(querySnapshot => {
-  querySnapshot.forEach(doc => {
-    clicksRef.doc(doc.id).delete();
-  });
-}).then(() => {
-  console.log('All clicks deleted successfully');
-}).catch(error => {
-  console.error('Error deleting clicks:', error);
-});
-  }
-
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
@@ -211,11 +198,7 @@ clicksRef.get().then(querySnapshot => {
         Click Me
       </button>
       <div>
-      <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
-      {firebaseError && <p>{firebaseError}</p>}
-    </div>
-    <div>
-      <button onClick={handleLocate}className="click--btn">LocateDel</button>
+      <button onClick={handleResetClick}>Reset Counts</button>
       {firebaseError && <p>{firebaseError}</p>}
     </div>
       <div className="click--map">

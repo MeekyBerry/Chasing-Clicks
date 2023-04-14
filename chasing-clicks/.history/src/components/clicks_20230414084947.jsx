@@ -163,32 +163,32 @@ const ClickCounter = () => {
     setCount(increasedCount);
   };
 
-  const handleResetClick = () => {
-    db.collection('clicks').get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        db.collection('clicks').doc(doc.id).delete().then(() => {
-          console.log(`Deleted count for ${doc.id}`);
-        }).catch(error => {
-          setFirebaseError(`Error deleting count for ${doc.id}: ${error.message}`);
-        });
-      });
-    }).catch(error => {
-      setFirebaseError(`Error resetting counts: ${error.message}`);
-    });
-  };
+//   const handleResetClick = () => {
+//     db.collection('clicks').get().then(querySnapshot => {
+//       querySnapshot.forEach(doc => {
+//         db.collection('clicks').doc(doc.id).delete().then(() => {
+//           console.log(`Deleted count for ${doc.id}`);
+//         }).catch(error => {
+//           setFirebaseError(`Error deleting count for ${doc.id}: ${error.message}`);
+//         });
+//       });
+//     }).catch(error => {
+//       setFirebaseError(`Error resetting counts: ${error.message}`);
+//     });
+//   };
 
-  const handleLocate = () => {
-    const clicksRef = db.collection('clicks');
-clicksRef.get().then(querySnapshot => {
-  querySnapshot.forEach(doc => {
-    clicksRef.doc(doc.id).delete();
-  });
-}).then(() => {
-  console.log('All clicks deleted successfully');
-}).catch(error => {
-  console.error('Error deleting clicks:', error);
-});
-  }
+//   const handleLocate = () => {
+//     const clicksRef = db.collection('clicks');
+// clicksRef.get().then(querySnapshot => {
+//   querySnapshot.forEach(doc => {
+//     clicksRef.doc(doc.id).delete();
+//   });
+// }).then(() => {
+//   console.log('All clicks deleted successfully');
+// }).catch(error => {
+//   console.error('Error deleting clicks:', error);
+// });
+//   }
 
   return (
     <div className="click">
@@ -210,14 +210,14 @@ clicksRef.get().then(querySnapshot => {
       <button onClick={handleButtonClick} className="click--btn">
         Click Me
       </button>
-      <div>
-      <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
+      {/* <div> */}
+      {/* <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
       {firebaseError && <p>{firebaseError}</p>}
     </div>
     <div>
       <button onClick={handleLocate}className="click--btn">LocateDel</button>
       {firebaseError && <p>{firebaseError}</p>}
-    </div>
+    </div> */}
       <div className="click--map">
         <div
           id="map"

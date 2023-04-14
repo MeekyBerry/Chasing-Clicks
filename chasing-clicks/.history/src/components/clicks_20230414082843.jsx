@@ -26,7 +26,6 @@ const ClickCounter = () => {
     return value !== null ? JSON.parse(value) : {};
   });
   const [map, setMap] = useState(null);
-  const [firebaseError, setFirebaseError] = useState('');
 
 
   useEffect(() => {
@@ -112,21 +111,19 @@ const ClickCounter = () => {
             console.log("Error getting clicks by location: ", error);
           });
       });
-
   }, [count, clicksByLocation]);
 
-  //   localStorage.setItem("count", JSON.stringify(count));
-  //   localStorage.setItem("state", JSON.stringify(state));
-  // localStorage.setItem("country", JSON.stringify(country));
-  // localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
-
-  useEffect(() => {
     localStorage.setItem("count", JSON.stringify(count));
     localStorage.setItem("state", JSON.stringify(state));
-    localStorage.setItem("country", JSON.stringify(country));
-    localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
-  }, [count, state, country, clicksByLocation]);
+  localStorage.setItem("country", JSON.stringify(country));
+  localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
 
+  // useEffect(() => {
+  //   localStorage.setItem("count", JSON.stringify(count));
+  //   localStorage.setItem("state", JSON.stringify(state));
+  //   localStorage.setItem("country", JSON.stringify(country));
+  //   localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
+  // }, [count, state, country, clicksByLocation]);
 
   const handleButtonClick = async () => {
     const increasedCount = count + 1;
@@ -163,33 +160,6 @@ const ClickCounter = () => {
     setCount(increasedCount);
   };
 
-  const handleResetClick = () => {
-    db.collection('clicks').get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        db.collection('clicks').doc(doc.id).delete().then(() => {
-          console.log(`Deleted count for ${doc.id}`);
-        }).catch(error => {
-          setFirebaseError(`Error deleting count for ${doc.id}: ${error.message}`);
-        });
-      });
-    }).catch(error => {
-      setFirebaseError(`Error resetting counts: ${error.message}`);
-    });
-  };
-
-  const handleLocate = () => {
-    const clicksRef = db.collection('clicks');
-clicksRef.get().then(querySnapshot => {
-  querySnapshot.forEach(doc => {
-    clicksRef.doc(doc.id).delete();
-  });
-}).then(() => {
-  console.log('All clicks deleted successfully');
-}).catch(error => {
-  console.error('Error deleting clicks:', error);
-});
-  }
-
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
@@ -210,14 +180,6 @@ clicksRef.get().then(querySnapshot => {
       <button onClick={handleButtonClick} className="click--btn">
         Click Me
       </button>
-      <div>
-      <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
-      {firebaseError && <p>{firebaseError}</p>}
-    </div>
-    <div>
-      <button onClick={handleLocate}className="click--btn">LocateDel</button>
-      {firebaseError && <p>{firebaseError}</p>}
-    </div>
       <div className="click--map">
         <div
           id="map"

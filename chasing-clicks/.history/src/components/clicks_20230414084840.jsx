@@ -215,7 +215,7 @@ clicksRef.get().then(querySnapshot => {
       {firebaseError && <p>{firebaseError}</p>}
     </div>
     <div>
-      <button onClick={handleLocate}className="click--btn">LocateDel</button>
+      <button onClick={handleLocate}className="click--btn">LocateDel`</button>
       {firebaseError && <p>{firebaseError}</p>}
     </div>
       <div className="click--map">

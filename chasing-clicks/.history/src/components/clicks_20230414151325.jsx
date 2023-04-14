@@ -211,7 +211,7 @@ clicksRef.get().then(querySnapshot => {
         Click Me
       </button>
       <div>
-      <button onClick={handleResetClick}className="click--btn">Reset Counts</button>
+      <button onClick={handleResetClick}className="click--btn">Reset Counts</button> 
       {firebaseError && <p>{firebaseError}</p>}
     </div>
     <div>
