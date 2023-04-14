@@ -170,15 +170,15 @@ const ClickCounter = () => {
       )}
       {state && country && (
         <p className="click--text">
-          Your last click was in <strong className="click--text__location">{state}</strong>,{" "}
-          <strong className="click--text__location">{country}</strong>
-          <span className="click--text__location__mark">!</span>
+          Your last click was in <strong>{state}</strong>,{" "}
+          <strong>{country}</strong>.
         </p>
       )}
-      <button onClick={handleButtonClick} className="click--btn">Click Me</button>
-      <div className="click--map">
-      <div id="map" style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}></div>
-      </div>
+      <button onClick={handleButtonClick}>Click Me</button>
+      <p>
+        Your last click was in {state}, {country}.
+      </p>
+      <div id="map" style={{ width: "100%", height: "200px" }}></div>
       {Object.keys(clicksByLocation).length > 0 && (
         <div className="click--locationCount">
           <h2 className="click--locationCount__head">Clicked Locations</h2>

@@ -66,6 +66,28 @@ const ClickCounter = () => {
       });
 
       db.collection("clicks")
+      .doc("state")
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          console.log(data);
+          setState(data);
+        }
+      });
+
+      db.collection("clicks")
+      .doc("country")
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          console.log(data);
+          setCountry(data);
+        }
+      });
+
+      db.collection("clicks")
       .doc("clicksByLocation")
       .get()
       .then((doc) => {
@@ -98,6 +120,26 @@ const ClickCounter = () => {
     })
     .catch((error) => {
       console.log("Error saving count: ", error);
+    });
+
+    db.collection("clicks")
+    .doc("state")
+    .set({ state })
+    .then(() => {
+      console.log("State saved!");
+    })
+    .catch((error) => {
+      console.log("Error saving state: ", error);
+    });
+
+    db.collection("clicks")
+    .doc("country")
+    .set({ country })
+    .then(() => {
+      console.log("Country saved!");
+    })
+    .catch((error) => {
+      console.log("Error saving country: ", error);
     });
 
     db.collection("clicks")
@@ -161,24 +203,14 @@ const ClickCounter = () => {
   };
 
   return (
-    <div className="click">
-      <h1 className="click--title">Chasing D clicks</h1>
-      {count > 0 && (
-        <p className="click--text">
-          You have clicked the button <strong className="click--text__count">{count}</strong> times.
-        </p>
-      )}
-      {state && country && (
-        <p className="click--text">
-          Your last click was in <strong className="click--text__location">{state}</strong>,{" "}
-          <strong className="click--text__location">{country}</strong>
-          <span className="click--text__location__mark">!</span>
-        </p>
-      )}
-      <button onClick={handleButtonClick} className="click--btn">Click Me</button>
-      <div className="click--map">
-      <div id="map" style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}></div>
-      </div>
+    <div>
+      <h1>Click Counter</h1>
+      <button onClick={handleButtonClick}>Click Me</button>
+      <p>You have clicked the button {count} times.</p>
+      <p>
+        Your last click was in {state}, {country}.
+      </p>
+      <div id="map" style={{ width: "100%", height: "200px" }}></div>
       {Object.keys(clicksByLocation).length > 0 && (
         <div className="click--locationCount">
           <h2 className="click--locationCount__head">Clicked Locations</h2>

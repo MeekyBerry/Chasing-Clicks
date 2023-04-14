@@ -65,6 +65,28 @@ const ClickCounter = () => {
         }
       });
 
+      // db.collection("clicks")
+      // .doc("state")
+      // .get()
+      // .then((doc) => {
+      //   if (doc.exists) {
+      //     const data = doc.data();
+      //     console.log(data);
+      //     setState(data);
+      //   }
+      // });
+
+      // db.collection("clicks")
+      // .doc("country")
+      // .get()
+      // .then((doc) => {
+      //   if (doc.exists) {
+      //     const data = doc.data();
+      //     console.log(data);
+      //     setCountry(data);
+      //   }
+      // });
+
       db.collection("clicks")
       .doc("clicksByLocation")
       .get()
@@ -100,6 +122,26 @@ const ClickCounter = () => {
       console.log("Error saving count: ", error);
     });
 
+    // db.collection("clicks")
+    // .doc("state")
+    // .set({ state })
+    // .then(() => {
+    //   console.log("State saved!");
+    // })
+    // .catch((error) => {
+    //   console.log("Error saving state: ", error);
+    // });
+
+    // db.collection("clicks")
+    // .doc("country")
+    // .set({ country })
+    // .then(() => {
+    //   console.log("Country saved!");
+    // })
+    // .catch((error) => {
+    //   console.log("Error saving country: ", error);
+    // });
+
     db.collection("clicks")
     .doc("clicksByLocation")
     .set(clicksByLocation)
@@ -111,17 +153,14 @@ const ClickCounter = () => {
     })
   }, [count, clicksByLocation]);
 
-//   localStorage.setItem("count", JSON.stringify(count));
-//   localStorage.setItem("state", JSON.stringify(state));
-// localStorage.setItem("country", JSON.stringify(country));
-// localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
-
-  useEffect(() => {
-    localStorage.setItem("count", JSON.stringify(count));
-    localStorage.setItem("state", JSON.stringify(state));
-    localStorage.setItem("country", JSON.stringify(country));
-    localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
-  }, [count, state, country, clicksByLocation]);
+  localStorage.setItem("state", JSON.stringify(state));
+localStorage.setItem("country", JSON.stringify(country));
+  // useEffect(() => {
+  //   localStorage.setItem("count", JSON.stringify(count));
+  //   localStorage.setItem("state", JSON.stringify(state));
+  //   localStorage.setItem("country", JSON.stringify(country));
+  //   localStorage.setItem("clicksByLocation", JSON.stringify(clicksByLocation));
+  // }, [count, state, country, clicksByLocation]);
 
   const handleButtonClick = async () => {
     const increasedCount = count + 1;
@@ -136,22 +175,40 @@ const ClickCounter = () => {
         const { place_name } = data.features[0];
         const [country, state] = place_name.split(",").reverse();
         setState(state);
-        setCountry(country);
-        const newClicksByLocation = {
-          ...clicksByLocation,
-          [increasedCount]: {
-            location: place_name,
-            count: increasedCount,
-          },
-        };
-        setClicksByLocation(newClicksByLocation);
-        map.flyTo({
-          center: [longitude, latitude],
-          essential: true,
-        });
-        new mapboxgl.Marker()
-          .setLngLat([longitude, latitude])
-          .addTo(map);
+
+
+
+
+
+
+
+
+
+        // const location = data.features;
+        // if (location.length > 0) {
+        //   const locationName = location[0];
+        //   if (locationName && locationName.properties) {
+        //     const { place_name, region, country } = locationName.properties;
+        //     const location = `${place_name}, ${region}, ${country}`;
+        //     setState(region);
+        //     setCountry(country);
+        //     const newClicksByLocation = {
+        //       ...clicksByLocation,
+        //       [count]: {
+        //         location,
+        //         count,
+        //       }
+        //     };
+        //     setClicksByLocation(newClicksByLocation);
+        //     map.flyTo({
+        //       center: [longitude, latitude],
+        //       essential: true,
+        //     });
+        //     new mapboxgl.Marker()
+        //       .setLngLat([longitude, latitude])
+        //       .addTo(map);
+        //   }
+        // }
       },
       (error) => {
         console.log(error);
@@ -161,54 +218,32 @@ const ClickCounter = () => {
   };
 
   return (
-    <div className="click">
-      <h1 className="click--title">Chasing D clicks</h1>
-      {count > 0 && (
-        <p className="click--text">
-          You have clicked the button <strong className="click--text__count">{count}</strong> times.
-        </p>
-      )}
-      {state && country && (
-        <p className="click--text">
-          Your last click was in <strong className="click--text__location">{state}</strong>,{" "}
-          <strong className="click--text__location">{country}</strong>
-          <span className="click--text__location__mark">!</span>
-        </p>
-      )}
-      <button onClick={handleButtonClick} className="click--btn">Click Me</button>
-      <div className="click--map">
-      <div id="map" style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}></div>
-      </div>
-      {Object.keys(clicksByLocation).length > 0 && (
-        <div className="click--locationCount">
-          <h2 className="click--locationCount__head">Clicked Locations</h2>
-          <ul className="click--locationCount__list">
-            <li className="click--locationCount__list--container">
-              <h2 className="click--locationCount__list--container__title">
-                Locations
-              </h2>
-              <h2 className="click--locationCount__list--container__title">
-                Clicks #
-              </h2>
-            </li>
-            {Object.keys(clicksByLocation).map((key) => (
-              <li key={key} className="click--locationCount__list__item">
-                <p className="click--locationCount__list__item__location">
-                  {clicksByLocation[key].location}
-                </p>
-                <p className="click--locationCount__list__item__count">
-                  {clicksByLocation[key].count}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+    <div>
+      <h1>Click Counter</h1>
+      <button onClick={handleButtonClick}>Click Me</button>
+      <p>You have clicked the button {count} times.</p>
+      <p>
+        Your last click was in {state}, {country}.
+      </p>
+      <div id="map" style={{ width: "100%", height: "400px" }}></div>
+      {
+        <ul>
+          {Object.keys(clicksByLocation).map((key) => {
+            const { location, count } = clicksByLocation[key];
+            return <li key={key}>{location}: {count}</li>;
+          }
+          )}
+        </ul>
+      }
     </div>
   );
 };
 
 export default ClickCounter;
+
+
+
+
 
 
 
