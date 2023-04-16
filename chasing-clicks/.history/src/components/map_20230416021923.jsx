@@ -51,7 +51,7 @@ const ClickCounterMap = () => {
         });
         setClickedLocations(locations);
       });
-    // Fetch previous locationCount from firebase database
+       // Fetch previous locationCount from firebase database
     db.collection("locationCounts")
       .get()
       .then((querySnapshot) => {
@@ -100,9 +100,7 @@ const ClickCounterMap = () => {
         lat: latitude,
       };
       // Get the clicked location state and country
-      fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
-      )
+      fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`)
         .then((response) => response.json())
         .then((data) => {
           const state = data.features.find(
@@ -113,7 +111,7 @@ const ClickCounterMap = () => {
           ).text;
           setState(state);
           setCountry(country);
-          // create a key that combines the state and country values
+         // create a key that combines the state and country values
           const locationKey = `${state}-${country}`;
           // check if the location already exists in the locationCounts dictionary
           if (locationKey in locationCounts) {
@@ -170,11 +168,13 @@ const ClickCounterMap = () => {
           map.flyTo({
             center: [longitude, latitude],
             zoom: 10,
-          });
+          })
           // add a marker to the map
-          new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
-          // popup
-          new mapboxgl.Popup()
+          new mapboxgl.Marker()
+            .setLngLat([longitude, latitude])
+            .addTo(map);
+            // popup
+            new mapboxgl.Popup()
             .setLngLat([longitude, latitude])
             .setHTML(`<p>You clicked in ${state}, ${country}</p>`)
             .addTo(map);
@@ -185,59 +185,34 @@ const ClickCounterMap = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
-      <button onClick={handleButtonClick} className="click--btn">
-        Click Me
-      </button>
+      <button onClick={handleButtonClick} className="click--btn">Click Me</button>
+      <p className="click--text">You have clicked <strong className="click--text__count">{clickCount}</strong> times</p>
       <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
+        I have clicked in <strong className="click--text__count">{Object.keys(locationCounts).length}</strong> different
+        locations
       </p>
       <p className="click--text">
-        I have been clicked in{" "}
-        <strong className="click--text__count">
-          {Object.keys(locationCounts).length}
-        </strong>{" "}
-        different locations
+        You clicked in <strong className="click--text__location">{state}</strong>,{" "}
+       <strong className="click--text__location">{country}</strong>
+       <span className="click--text__location__mark">!</span>
       </p>
-      <p className="click--text">
-        You clicked in{" "}
-        <strong className="click--text__location">{state}</strong>,{" "}
-        <strong className="click--text__location">{country}</strong>
-        <span className="click--text__location__mark">!</span>
-      </p>
-      <div className="click--map">
-        <div
+      <h2>Clicked locations:</h2>
+    <ul>
+      {Object.keys(locationCounts).map((key) => {
+        const [state, country] = key.split('-');
+        const count = locationCounts[key];
+        return (
+          <li key={key}>
+            {state}, {country} ({count})
+          </li>
+        );
+      })}
+    </ul>
+    <div className="click--map">
+       <div
           id="map"
           style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}
         ></div>
-      </div>
-      <div className="click--locationCount">
-        <h2 className="click--locationCount__head">Clicked Locations</h2>
-        <ul className="click--locationCount__list">
-          <li className="click--locationCount__list--container">
-            <h2 className="click--locationCount__list--container__title">
-              Locations
-            </h2>
-            <h2 className="click--locationCount__list--container__title">
-              Clicks #
-            </h2>
-          </li>
-          {Object.keys(locationCounts).map((key) => {
-            const [state, country] = key.split("-");
-            const count = locationCounts[key];
-            return (
-              <li key={key} className="click--locationCount__list__item">
-                <p className="click--locationCount__list__item__location">
-                  {state}, {country}
-                </p>
-                <p className="click--locationCount__list__item__count">
-                  ({count})
-                </p>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </div>
   );

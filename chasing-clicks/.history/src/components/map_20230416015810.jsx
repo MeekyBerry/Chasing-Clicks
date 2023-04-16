@@ -51,7 +51,7 @@ const ClickCounterMap = () => {
         });
         setClickedLocations(locations);
       });
-    // Fetch previous locationCount from firebase database
+       // Fetch previous locationCount from firebase database
     db.collection("locationCounts")
       .get()
       .then((querySnapshot) => {
@@ -86,14 +86,15 @@ const ClickCounterMap = () => {
         count: newClickCount,
       })
       .then(() => {
-        console.log("Total count successfully written!");
+        console.log("Document successfully written!");
       })
       .catch((error) => {
-        console.error("Error writing Total count: ", error);
+        console.error("Error writing document: ", error);
       });
     // Get the lng & lat from navigator.geo.location
     navigator.geolocation.getCurrentPosition((position) => {
       const { longitude, latitude } = position.coords;
+
       // Store the result in a new variable 'location'
       const location = {
         lng: longitude,
@@ -113,7 +114,7 @@ const ClickCounterMap = () => {
           ).text;
           setState(state);
           setCountry(country);
-          // create a key that combines the state and country values
+         // create a key that combines the state and country values
           const locationKey = `${state}-${country}`;
           // check if the location already exists in the locationCounts dictionary
           if (locationKey in locationCounts) {
@@ -124,123 +125,79 @@ const ClickCounterMap = () => {
               ...locationCounts,
               [locationKey]: newCount,
             });
-          } else {
-            // if it doesn't, set the count to 1
-            setLocationCounts({
-              ...locationCounts,
-              [locationKey]: 1,
-            });
-          }
-          // send the locationCounts dictionary to firebase
-          db.collection("locationCounts")
-            .doc(locationKey)
-            .set({
-              count: locationCounts[locationKey],
-            })
-            .then(() => {
-              console.log("Location Count successfully written!");
-            })
-            .catch((error) => {
-              console.error("Error writing Location Count: ", error);
-            });
-          // Create a copy by spreading the initial state(state is an array) into a new array
-          const newClickedLocations = [...clickedLocations];
-          // Send the object to firebase database
-          db.collection("clicks")
-            .add({
-              location,
-              state,
-              country,
-            })
-            .then((docRef) => {
-              // Add the new location to the state
-              newClickedLocations.push({
-                id: docRef.id,
-                ...location,
-                state,
-                country,
-              });
-              setClickedLocations(newClickedLocations);
-            })
-            .catch((error) => {
-              console.error("Error adding clicked location: ", error);
-            });
 
-          // move the map to the clicked location
-          map.flyTo({
-            center: [longitude, latitude],
-            zoom: 10,
-          });
-          // add a marker to the map
-          new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
-          // popup
-          new mapboxgl.Popup()
-            .setLngLat([longitude, latitude])
-            .setHTML(`<p>You clicked in ${state}, ${country}</p>`)
-            .addTo(map);
-        });
-    });
-  };
 
-  return (
-    <div className="click">
-      <h1 className="click--title">Chasing D clicks</h1>
-      <button onClick={handleButtonClick} className="click--btn">
-        Click Me
-      </button>
-      <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
-      </p>
-      <p className="click--text">
-        I have been clicked in{" "}
-        <strong className="click--text__count">
-          {Object.keys(locationCounts).length}
-        </strong>{" "}
-        different locations
-      </p>
-      <p className="click--text">
-        You clicked in{" "}
-        <strong className="click--text__location">{state}</strong>,{" "}
-        <strong className="click--text__location">{country}</strong>
-        <span className="click--text__location__mark">!</span>
-      </p>
-      <div className="click--map">
-        <div
-          id="map"
-          style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}
-        ></div>
-      </div>
-      <div className="click--locationCount">
-        <h2 className="click--locationCount__head">Clicked Locations</h2>
-        <ul className="click--locationCount__list">
-          <li className="click--locationCount__list--container">
-            <h2 className="click--locationCount__list--container__title">
-              Locations
-            </h2>
-            <h2 className="click--locationCount__list--container__title">
-              Clicks #
-            </h2>
-          </li>
-          {Object.keys(locationCounts).map((key) => {
-            const [state, country] = key.split("-");
-            const count = locationCounts[key];
-            return (
-              <li key={key} className="click--locationCount__list__item">
-                <p className="click--locationCount__list__item__location">
-                  {state}, {country}
-                </p>
-                <p className="click--locationCount__list__item__count">
-                  ({count})
-                </p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
-  );
+
+
+
+
+
+
+
+
+
+
+  //         const state = data.features.find(
+  //           (feature) => feature.place_type[0] === "region"
+  //         ).text;
+  //         const country = data.features.find(
+  //           (feature) => feature.place_type[0] === "country"
+  //         ).text;
+
+  //         // Create a copy by spreading the initial state(state is an array) into a new array
+  //         const newClickedLocations = [...clickedLocations];
+  //         // Send the object to firebase database
+  //         db.collection("clicks")
+  //           .add({
+  //             location,
+  //             state,
+  //             country,
+  //           })
+  //           .then((docRef) => {
+  //             // Add the new location to the state
+  //             newClickedLocations.push({
+  //               id: docRef.id,
+  //               ...location,
+  //               state,
+  //               country,
+  //             });
+  //             setClickedLocations(newClickedLocations);
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error adding document: ", error);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching location: ", error);
+  //       });
+  //   });
+  // };
+
+  // return (
+  //   <div>
+  //     <h1>Click Counter Map</h1>
+  //     <button onClick={handleButtonClick}>Click Me</button>
+  //     <p>You have clicked {clickCount} times</p>
+  //     <p>
+  //       Clicked location:{" "}
+  //       {clickedLocations.length > 0 &&
+  //         `${clickedLocations[clickedLocations.length - 1].state}, ${
+  //           clickedLocations[clickedLocations.length - 1].country
+  //         }`}
+  //     </p>
+  //     <ul>
+  //       {clickedLocations.map((clickedLocation, index) => {
+  //         return (
+  //           <li key={index}>
+  //             {clickedLocation.state}, {clickedLocation.country}: {clickedLocation.clickCount}
+  //           </li>
+  //         );
+  //       })}
+  //     </ul>
+
+  //     <div id="map" style={{ width: "200px", height: "300px" }}></div>
+  //   </div>
+  // );
 };
 
 export default ClickCounterMap;
