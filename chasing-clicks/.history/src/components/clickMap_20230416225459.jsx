@@ -235,8 +235,8 @@ const ClickCounterMap = () => {
         different locations
       </p>
       <p className="click--text">
-        You clicked in{" "}
-        <strong className="click--text__location">{state}</strong>,{" "}
+        You clicked in
+        <strong className="click--text__location">{state}</strong>,
         <strong className="click--text__location">{country}</strong>
         <span className="click--text__location__mark">!</span>
       </p>

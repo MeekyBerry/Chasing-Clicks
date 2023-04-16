@@ -222,11 +222,11 @@ const ClickCounterMap = () => {
       {/* <button onClick={handleReset} className="click--btn">
         Reset
       </button> */}
-      <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
-      </p>
+        <p className="click--text">
+          I have been clicked{" "}
+          <strong className="click--text__count">{clickCount}</strong> times in
+          total
+        </p>
       <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
@@ -235,8 +235,8 @@ const ClickCounterMap = () => {
         different locations
       </p>
       <p className="click--text">
-        You clicked in{" "}
-        <strong className="click--text__location">{state}</strong>,{" "}
+        You clicked in
+        <strong className="click--text__location">{state}</strong>,
         <strong className="click--text__location">{country}</strong>
         <span className="click--text__location__mark">!</span>
       </p>

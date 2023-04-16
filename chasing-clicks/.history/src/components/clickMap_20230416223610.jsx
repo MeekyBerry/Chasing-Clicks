@@ -19,6 +19,20 @@ const ClickCounterMap = () => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
+  // useEffect(() => {
+  //   const newLocationCounts = {};
+  //   // Count the clicks by location
+  //   clickedLocations.forEach((click) => {
+  //     const locationKey = `${click.state}-${click.country}`;
+  //     if (locationKey in newLocationCounts) {
+  //       newLocationCounts[locationKey] += 1;
+  //     } else {
+  //       newLocationCounts[locationKey] = 1;
+  //     }
+  //   });
+  //   setLocationCounts(newLocationCounts);
+  // }, [clickedLocations]);
+
   useEffect(() => {
     // Fetch previous total counts from firebase database
     db.collection("clicks")
@@ -160,73 +174,78 @@ const ClickCounterMap = () => {
   };
 
   // handle reset
-  // const handleReset = () => {
-  //   // reset the count to 0
-  //   setClickCount(0);
-  //   // reset the locationCounts dictionary to empty
-  //   setLocationCounts({});
-  //   // reset the clickedLocations array to empty
-  //   setClickedLocations([]);
-  //   // reset the state and country to empty
-  //   setState("");
-  //   setCountry("");
-  //   // send the count to firebase
-  //   db.collection("clicks")
-  //     .doc("total")
-  //     .set({
-  //       count: 0,
-  //     })
-  //     .then(() => {
-  //       console.log("Total count successfully written!");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error writing Total count: ", error);
-  //     });
-  //   // send the locationCounts dictionary to firebase
-  //   db.collection("locationCounts")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         db.collection("locationCounts")
-  //           .doc(doc.id)
-  //           .delete()
-  //           .then(() => {
-  //             console.log("Location Count successfully deleted!");
-  //           })
-  //           .catch((error) => {
-  //             console.error("Error deleting Location Count: ", error);
-  //           });
-  //       });
-  //     });
-  //   // send the clickedLocations array to firebase
-  //   db.collection("clicks")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         db.collection("clicks")
-  //           .doc(doc.id)
-  //           .delete()
-  //           .then(() => {
-  //             console.log("Clicked Location successfully deleted!");
-  //           })
-  //           .catch((error) => {
-  //             console.error("Error deleting Clicked Location: ", error);
-  //           });
-  //       });
-  //     });
-  // };
+  const handleReset = () => {
+    // reset the count to 0
+    setClickCount(0);
+    // reset the locationCounts dictionary to empty
+    setLocationCounts({});
+    // reset the clickedLocations array to empty
+    setClickedLocations([]);
+    // reset the state and country to empty
+    setState("");
+    setCountry("");
+    // send the count to firebase
+    db.collection("clicks")
+      .doc("total")
+      .set({
+        count: 0,
+      })
+      .then(() => {
+        console.log("Total count successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error writing Total count: ", error);
+      });
+    // send the locationCounts dictionary to firebase
+    db.collection("locationCounts")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          db.collection("locationCounts")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Location Count successfully deleted!");
+            })
+            .catch((error) => {
+              console.error("Error deleting Location Count: ", error);
+            });
+        });
+      });
+    // send the clickedLocations array to firebase
+    db.collection("clicks")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          db.collection("clicks")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Clicked Location successfully deleted!");
+            })
+            .catch((error) => {
+              console.error("Error deleting Clicked Location: ", error);
+            });
+        });
+      });
+  };
 
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
-      {/* <button onClick={handleReset} className="click--btn">
+      <button onClick={handleButtonClick} className="click--btn">
+        Click Me
+      </button>
+      <button onClick={handleReset} className="click--btn">
         Reset
-      </button> */}
-      <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
-      </p>
+      </button>
+      {clickCount > 0 && (
+        <p className="click--text">
+          I have been clicked{" "}
+          <strong className="click--text__count">{clickCount}</strong> times in
+          total
+        </p>
+      )}
       <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
@@ -240,9 +259,6 @@ const ClickCounterMap = () => {
         <strong className="click--text__location">{country}</strong>
         <span className="click--text__location__mark">!</span>
       </p>
-      <button onClick={handleButtonClick} className="click--btn">
-        Click Me
-      </button>
       <div className="click--map">
         <div
           ref={mapContainer}

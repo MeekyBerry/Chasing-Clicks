@@ -19,6 +19,20 @@ const ClickCounterMap = () => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
+  // useEffect(() => {
+  //   const newLocationCounts = {};
+  //   // Count the clicks by location
+  //   clickedLocations.forEach((click) => {
+  //     const locationKey = `${click.state}-${click.country}`;
+  //     if (locationKey in newLocationCounts) {
+  //       newLocationCounts[locationKey] += 1;
+  //     } else {
+  //       newLocationCounts[locationKey] = 1;
+  //     }
+  //   });
+  //   setLocationCounts(newLocationCounts);
+  // }, [clickedLocations]);
+
   useEffect(() => {
     // Fetch previous total counts from firebase database
     db.collection("clicks")
@@ -45,7 +59,7 @@ const ClickCounterMap = () => {
       .then((querySnapshot) => {
         const locationCounts = {};
         querySnapshot.forEach((doc) => {
-          locationCounts[doc.id] = doc.data().locationCount;
+          locationCounts[doc.id] = doc.data().count;
         });
         setLocationCounts(locationCounts);
       });
@@ -120,7 +134,7 @@ const ClickCounterMap = () => {
 
           // send the locationCounts dictionary to firebase
           db.collection("locationCounts").doc(locationKey).set({
-            locationCount: locationCounts[locationKey],
+            count: locationCounts[locationKey],
           });
 
           // Create a copy by spreading the initial state(state is an array) into a new array
@@ -219,14 +233,19 @@ const ClickCounterMap = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
+      <button onClick={handleButtonClick} className="click--btn">
+        Click Me
+      </button>
       {/* <button onClick={handleReset} className="click--btn">
         Reset
       </button> */}
-      <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
-      </p>
+      {clickCount > 0 && (
+        <p className="click--text">
+          I have been clicked{" "}
+          <strong className="click--text__count">{clickCount}</strong> times in
+          total
+        </p>
+      )}
       <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
@@ -234,15 +253,12 @@ const ClickCounterMap = () => {
         </strong>{" "}
         different locations
       </p>
-      <p className="click--text">
-        You clicked in{" "}
-        <strong className="click--text__location">{state}</strong>,{" "}
-        <strong className="click--text__location">{country}</strong>
-        <span className="click--text__location__mark">!</span>
-      </p>
-      <button onClick={handleButtonClick} className="click--btn">
-        Click Me
-      </button>
+        <p className="click--text">
+          You clicked in{" "}
+          <strong className="click--text__location">{state}</strong>,{" "}
+          <strong className="click--text__location">{country}</strong>
+          <span className="click--text__location__mark">!</span>
+        </p>
       <div className="click--map">
         <div
           ref={mapContainer}

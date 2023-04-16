@@ -227,13 +227,13 @@ const ClickCounterMap = () => {
         <strong className="click--text__count">{clickCount}</strong> times in
         total
       </p>
-      <p className="click--text">
+      {/* <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
           {Object.keys(locationCounts).length}
         </strong>{" "}
         different locations
-      </p>
+      </p> */}
       <p className="click--text">
         You clicked in{" "}
         <strong className="click--text__location">{state}</strong>,{" "}

@@ -19,6 +19,20 @@ const ClickCounterMap = () => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
+  // useEffect(() => {
+  //   const newLocationCounts = {};
+  //   // Count the clicks by location
+  //   clickedLocations.forEach((click) => {
+  //     const locationKey = `${click.state}-${click.country}`;
+  //     if (locationKey in newLocationCounts) {
+  //       newLocationCounts[locationKey] += 1;
+  //     } else {
+  //       newLocationCounts[locationKey] = 1;
+  //     }
+  //   });
+  //   setLocationCounts(newLocationCounts);
+  // }, [clickedLocations]);
+
   useEffect(() => {
     // Fetch previous total counts from firebase database
     db.collection("clicks")
@@ -219,14 +233,19 @@ const ClickCounterMap = () => {
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
+      <button onClick={handleButtonClick} className="click--btn">
+        Click Me
+      </button>
       {/* <button onClick={handleReset} className="click--btn">
         Reset
       </button> */}
-      <p className="click--text">
-        I have been clicked{" "}
-        <strong className="click--text__count">{clickCount}</strong> times in
-        total
-      </p>
+      {clickCount > 0 && (
+        <p className="click--text">
+          I have been clicked{" "}
+          <strong className="click--text__count">{clickCount}</strong> times in
+          total
+        </p>
+      )}
       <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
@@ -240,9 +259,6 @@ const ClickCounterMap = () => {
         <strong className="click--text__location">{country}</strong>
         <span className="click--text__location__mark">!</span>
       </p>
-      <button onClick={handleButtonClick} className="click--btn">
-        Click Me
-      </button>
       <div className="click--map">
         <div
           ref={mapContainer}
