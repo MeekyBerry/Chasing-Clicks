@@ -1,6 +1,6 @@
 // A web page with a clickable button and a click count. Every time that the button is clicked, the number increases by 1. When the web page is refreshed, the click count number should reflect all previous clicks. That means, refreshing the page should not reset the count to 0 or any other default number. show on the web page the distribution of clicks by geography with a map.
 
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import db from "../config";
@@ -27,11 +27,11 @@ mapboxgl.accessToken =
 const ClickCounterMap = () => {
   const [clickCount, setClickCount] = useState(0);
   const [clickedLocations, setClickedLocations] = useState([]);
-
   const [locationCounts, setLocationCounts] = useState({});
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [map, setMap] = useState(null);
+  const mapContainer = useRef(null);
 
   useEffect(() => {
     // Fetch previous total counts from firebase database
@@ -64,7 +64,7 @@ const ClickCounterMap = () => {
 
     // Render a map from Mapbox
     const map = new mapboxgl.Map({
-      container: "map",
+      container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [0, 0],
       zoom: 2,
@@ -182,17 +182,80 @@ const ClickCounterMap = () => {
     });
   };
 
+  // handle reset
+  const handleReset = () => {
+    // reset the count to 0
+    setClickCount(0);
+    // reset the locationCounts dictionary to empty
+    setLocationCounts({});
+    // reset the clickedLocations array to empty
+    setClickedLocations([]);
+    // reset the state and country to empty
+    setState("");
+    setCountry("");
+    // send the count to firebase
+    db.collection("clicks")
+      .doc("total")
+      .set({
+        count: 0,
+      })
+      .then(() => {
+        console.log("Total count successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error writing Total count: ", error);
+      });
+    // send the locationCounts dictionary to firebase
+    db.collection("locationCounts")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          db.collection("locationCounts")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Location Count successfully deleted!");
+            })
+            .catch((error) => {
+              console.error("Error deleting Location Count: ", error);
+            });
+        });
+      });
+    // send the clickedLocations array to firebase
+    db.collection("clicks")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          db.collection("clicks")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Clicked Location successfully deleted!");
+            })
+            .catch((error) => {
+              console.error("Error deleting Clicked Location: ", error);
+            });
+        });
+      });
+  };
+
   return (
     <div className="click">
       <h1 className="click--title">Chasing D clicks</h1>
       <button onClick={handleButtonClick} className="click--btn">
         Click Me
       </button>
+      <button onClick={handleReset} className="click--btn">
+        Reset
+      </button>
+      {clickCount > 0 && (
       <p className="click--text">
         I have been clicked{" "}
         <strong className="click--text__count">{clickCount}</strong> times in
         total
       </p>
+      )}
+      {/* {Object.keys(locationCounts).length > 0 && ( */}
       <p className="click--text">
         I have been clicked in{" "}
         <strong className="click--text__count">
@@ -200,15 +263,19 @@ const ClickCounterMap = () => {
         </strong>{" "}
         different locations
       </p>
+{/* )} */}
+      {state && country && (
       <p className="click--text">
         You clicked in{" "}
         <strong className="click--text__location">{state}</strong>,{" "}
         <strong className="click--text__location">{country}</strong>
         <span className="click--text__location__mark">!</span>
       </p>
+      )}
       <div className="click--map">
         <div
-          id="map"
+          // id="map"
+          ref={mapContainer}
           style={{ width: "100%", height: "100%", borderRadius: ".5rem" }}
         ></div>
       </div>

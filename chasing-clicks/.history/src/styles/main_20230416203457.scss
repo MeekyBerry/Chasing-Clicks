@@ -1,0 +1,219 @@
+:root {
+  --color-primary: #0C0404;
+  --color-secondary: #F5FEFD;
+
+
+  --color-primary-light: #696969;
+  --color-secondary-light: #F8F8FF;
+
+
+  --color-primary-lighter: #666362;
+  --color-secondary-lighter: #555555;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.app {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: var(--color-primary-lighter);
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.click {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+
+  &--title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-family: 'Fira Sans';
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+  }
+
+  &--text {
+    margin-bottom: .5rem;
+    font-style: oblique;
+    font-size: 1.5rem;
+    font-family: 'Oxygen';
+    color: var(--color-secondary-light);
+
+    &__count {
+      font-size: 3rem;
+      font-weight: 900;
+      font-family: 'Fira Sans';
+      color: var(--color-primary);
+      font-style: normal !important;
+      margin: 0 .5rem;
+    }
+
+    &__location {
+      font-size: 1.8rem;
+      font-weight: 900;
+      font-family: 'Fira Sans';
+      font-style: normal !important;
+      color: var(--color-primary);
+      text-transform: capitalize;
+
+      &__mark {
+        font-size: 1.8rem;
+        font-weight: 900;
+        font-family: 'Fira Sans';
+        font-style: normal !important;
+      }
+    }
+  }
+
+  &--btn {
+    padding: 1rem;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: 'Oxygen'monospace;
+    text-transform: uppercase;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    animation: heartbeat 1.5s ease-in-out infinite;
+
+    &:hover,
+    &:active {
+      background-color: var(--color-primary-light);
+      color: var(--color-secondary-light);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &--map {
+    width: 30rem;
+    height: 25rem;
+    margin: 2rem auto;
+    border-radius: .5rem;
+  }
+
+  &--locationCount {
+    font-size: 1.5rem;
+    background-color: var(--color-primary-light);
+    padding: 1rem;
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    &__head {
+      font-size: 2rem;
+      font-weight: 600;
+      font-family: 'Fira Sans';
+      color: var(--color-secondary);
+      text-transform: capitalize;
+      border-bottom: 1px solid var(--color-secondary-light);
+    }
+
+    &__list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: .5rem;
+
+      &--container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: .5rem;
+        border-bottom: 1px solid var(--color-secondary-light);
+
+        &__title {
+          font-size: 1.5rem;
+          font-family: 'Fira Sans';
+          color: var(--color-secondary);
+          text-transform: capitalize;
+        }
+      }
+
+      &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: .5rem;
+        border-bottom: 1px solid var(--color-secondary-light);
+        width: 100%;
+        text-align: center;
+        font-family: 'Fira Sans';
+
+        &__location {
+          font-size: 1.3rem;
+          color: var(--color-secondary-light);
+          text-transform: capitalize;
+        }
+
+        &__count {
+          font-size: 1.8rem;
+          color: var(--color-secondary);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+//  Heartbeat animation
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.1);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.1);
+  }
+
+  80% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
