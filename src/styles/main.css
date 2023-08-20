@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,700;1,700&family=DM+Sans:wght@500&family=Inter:wght@300;400;700&family=Kablammo&family=Pacifico&family=Playfair+Display+SC:ital,wght@0,700;1,900&family=Sacramento&family=Tilt+Prism&display=swap");
+:root {
+  --color-primary: #0C0404;
+  --color-secondary: #F5FEFD;
+  --color-primary-light: #696969;
+  --color-secondary-light: #F8F8FF;
+  --color-primary-lighter: #666362;
+  --color-secondary-lighter: #555555;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.app {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: var(--color-primary-light);
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.click {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+.click--title {
+  font-size: 3rem;
+  font-family: "Tilt Prism", cursive;
+  align-self: flex-start;
+}
+.click--text {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  font-family: "Oxygen";
+  color: var(--color-secondary-light);
+}
+.click--text__count {
+  font-size: 3rem;
+  font-weight: 900;
+  font-family: "Tilt Prism", cursive;
+  color: var(--color-primary);
+  margin: 0 0.5rem;
+}
+.click--text__location {
+  font-size: 1.8rem;
+  font-family: "Tilt Prism", cursive;
+  color: var(--color-primary);
+  letter-spacing: 0.1rem;
+}
+.click--btn {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  font-size: 1.3rem;
+  letter-spacing: 0.1rem;
+  font-family: "Tilt Prism", cursive;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+.click--btn:hover, .click--btn:active {
+  background-color: var(--color-primary-light);
+  color: var(--color-secondary-light);
+}
+.click--btn:focus {
+  outline: none;
+}
+.click--map {
+  width: 80%;
+  height: 30rem;
+  margin: 2rem auto;
+  border-radius: 0.5rem;
+}
+.click--locationCount {
+  font-size: 1.5rem;
+  background-color: var(--color-primary-light);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.click--locationCount__head {
+  font-size: 2rem;
+  font-family: "Tilt Prism", cursive;
+  letter-spacing: 0.1rem;
+}
+.click--locationCount__list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+.click--locationCount__list--container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-secondary-light);
+}
+.click--locationCount__list--container__title {
+  font-size: 1.5rem;
+  font-family: "Fira Sans";
+  font-family: "Tilt Prism", cursive;
+}
+.click--locationCount__list__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-secondary-light);
+  width: 100%;
+  text-align: center;
+  font-family: "Fira Sans";
+}
+.click--locationCount__list__item__location {
+  font-size: 1.3rem;
+  color: var(--color-secondary-light);
+  text-transform: capitalize;
+}
+.click--locationCount__list__item__count {
+  font-size: 1.8rem;
+  color: var(--color-secondary);
+  font-family: "Tilt Prism", cursive;
+}
+
+.suspense {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+.suspense--blob {
+  width: 89.6px;
+  height: 89.6px;
+  padding: 11.2px;
+  background: #fff;
+  display: grid;
+  filter: blur(5.6px) contrast(15);
+  mix-blend-mode: darken;
+}
+.suspense--blob::before, .suspense--blob::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 5.6px;
+  background: #474bff;
+}
+.suspense--blob::after {
+  margin: 19px;
+  animation: blob 2s infinite;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  80% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes blob {
+  12.5% {
+    transform: translate(-60%, 60%);
+  }
+  25% {
+    transform: translate(65%, -65%);
+  }
+  37.5% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(60%, 60%);
+  }
+  67.5% {
+    transform: translate(-65%, -70%);
+  }
+  75% {
+    transform: translate(60%, -60%);
+  }
+}/*# sourceMappingURL=main.css.map */
